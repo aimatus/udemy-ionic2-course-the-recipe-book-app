@@ -1,0 +1,7 @@
+{
+  "name": "udemy-ionic2-course-the-recipe-book-app",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
