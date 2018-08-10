@@ -5,7 +5,9 @@
 </ion-header>
 
 <ion-content padding>
-  <form #f="ngForm" (ngSubmit)="onAddItem(f)">
+  <form
+    #itemForm="ngForm"
+    (ngSubmit)="onAddItem(itemForm)">
     <ion-list>
       <ion-item>
         <ion-label fixed>Name</ion-label>
@@ -13,7 +15,8 @@
           type="text"
           name="ingredientName"
           placeholder="Milk"
-          ngModel>
+          ngModel
+          required>
         </ion-input>
       </ion-item>
       <ion-item>
@@ -22,14 +25,16 @@
           type="number"
           name="amount"
           placeholder="2"
-          ngModel>
+          ngModel
+          required>
         </ion-input>
       </ion-item>
     </ion-list>
     <button
       ion-button
       type="submit"
-      block>
+      block
+      [disabled]="!itemForm.valid">
       Add item
     </button>
   </form>
