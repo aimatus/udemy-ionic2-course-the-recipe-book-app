@@ -11,11 +11,22 @@ import { Ingredient } from '../../models/ingredient';
 })
 export class ShoppingListPage {
 
+  items: Ingredient[];
+
   constructor(private shoppingListService: ShoppingListService) {}
+
+  ionViewWillEnter() {
+    this.loadItems();
+  }
 
   onAddItem(form: NgForm) {
     var item = new Ingredient(form.value.ingredientName, form.value.amount);
     this.shoppingListService.addItem(item);
     form.reset();
+    this.loadItems();
+  }
+
+  private loadItems() {
+    this.items = this.shoppingListService.getItems();
   }
 }
