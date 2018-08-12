@@ -5,24 +5,32 @@
 </ion-header>
 
 <ion-content padding>
-  <form>
+  <form
+    [formGroup]="recipeForm"
+    (ngSubmit)="onSubmit()">
     <ion-list>
       <ion-item>
         <ion-label floating>Title</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input
+          type="text"
+          formControlName="title"></ion-input>
       </ion-item>
-      <ion-item floating>
-        <ion-label>Description</ion-label>
-        <ion-textarea></ion-textarea>
+      <ion-item>
+        <ion-label floating>Description</ion-label>
+        <ion-textarea formControlName="description"></ion-textarea>
       </ion-item>
       <ion-item>
         <ion-label floating>Difficulty</ion-label>
-        <ion-select>
+        <ion-select formControlName="difficulty">
           <ion-option
             *ngFor="let option of difficultyOptions"
             [value]="option">{{ option }}</ion-option>
         </ion-select>
       </ion-item>
     </ion-list>
+    <button
+      type="submit"
+      ion-button
+      block>{{ mode }} Recipe</button>
   </form>
 </ion-content>
