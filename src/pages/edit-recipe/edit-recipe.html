@@ -1,18 +1,28 @@
-<!--
-  Generated template for the EditRecipePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>edit-recipe</ion-title>
+    <ion-title>{{ mode }} Recipe</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
-
+  <form>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Title</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item floating>
+        <ion-label>Description</ion-label>
+        <ion-textarea></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Difficulty</ion-label>
+        <ion-select>
+          <ion-option
+            *ngFor="let option of difficultyOptions"
+            [value]="option">{{ option }}</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </form>
 </ion-content>
