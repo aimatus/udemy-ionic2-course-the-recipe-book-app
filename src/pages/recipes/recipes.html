@@ -17,7 +17,7 @@
     <button
       ion-item
       *ngFor="let recipe of recipes; let i = index"
-      (click)="onLoadRecipe()">
+      (click)="onLoadRecipe(i)">
       <h2>{{ recipe.title }}</h2>
       <ion-note>{{ recipe.difficulty }}</ion-note>
     </button>
