@@ -26,8 +26,8 @@ export class EditRecipePage implements OnInit {
     private navController: NavController) { }
 
   ngOnInit(): void {
-    const mode = this.navParams.get('mode');
-    if (mode === 'Edit') {
+    this.mode = this.navParams.get('mode');
+    if (this.mode === 'Edit') {
       this.recipe = this.navParams.get('recipe');
       this.index = this.navParams.get('index');
       this.initializeForm();
@@ -43,7 +43,11 @@ export class EditRecipePage implements OnInit {
       this.recipeForm.value.difficulty,
       this.getRecipeIngredients()
     );
-    this.recipesService.addRecipe(recipe);
+    if (this.mode === 'Edit') {
+      this.recipesService.updateRecipe(this.index, recipe);
+    } else {
+      this.recipesService.addRecipe(recipe);
+    }
     this.recipeForm.reset();
     this.navController.popToRoot();
   }
