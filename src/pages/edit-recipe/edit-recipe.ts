@@ -40,7 +40,15 @@ export class EditRecipePage implements OnInit {
         {
           text: 'Remove All Ingredients',
           role: 'destructive',
-          handler: () => { }
+          handler: () => {
+            const formArray: FormArray = <FormArray>this.recipeForm.get('ingredients');
+            const arrayLength = formArray.length;
+            if (arrayLength > 0) {
+              for (let i = arrayLength; i >= 0; i--) {
+                formArray.removeAt(i);
+              }
+            }
+          }
         },
         {
           text: 'Cancel',
@@ -68,7 +76,7 @@ export class EditRecipePage implements OnInit {
         {
           text: 'Add',
           handler: data => {
-            if (data.name == null ||data.name.trim() == '') {
+            if (data.name == null || data.name.trim() == '') {
               return;
             }
             let ingredients = <FormArray>this.recipeForm.get('ingredients');
