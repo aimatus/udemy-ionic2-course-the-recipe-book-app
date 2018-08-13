@@ -14,6 +14,8 @@ export class EditRecipePage implements OnInit {
   mode = 'New';
   difficultyOptions = ['Easy', 'Medium', 'Hard'];
   recipeForm: FormGroup;
+  recipe: Recipe;
+  index: number;
 
   constructor(
     private navParams: NavParams,
@@ -24,8 +26,14 @@ export class EditRecipePage implements OnInit {
     private navController: NavController) { }
 
   ngOnInit(): void {
-    this.navParams.get('mode');
-    this.initializeForm();
+    const mode = this.navParams.get('mode');
+    if (mode === 'Edit') {
+      this.recipe = this.navParams.get('recipe');
+      this.index = this.navParams.get('index');
+      this.initializeForm();
+    } else {
+      this.initializeBlankForm();
+    }
   }
 
   onSubmit() {
@@ -90,12 +98,25 @@ export class EditRecipePage implements OnInit {
     });
   }
 
-  private initializeForm() {
+  private initializeBlankForm() {
     this.recipeForm = new FormGroup({
       'title': new FormControl(null, Validators.required),
       'description': new FormControl(null, Validators.required),
       'difficulty': new FormControl(this.difficultyOptions[1], Validators.required),
       'ingredients': new FormArray([])
+    });
+  }
+
+  private initializeForm() {
+    let ingredients: FormControl[] = [];
+    for (let ingredient of this.recipe.ingredients) {
+      ingredients.push(new FormControl(ingredient.name, Validators.required));
+    }
+    this.recipeForm = new FormGroup({
+      'title': new FormControl(this.recipe.title, Validators.required),
+      'description': new FormControl(this.recipe.description, Validators.required),
+      'difficulty': new FormControl(this.recipe.difficulty, Validators.required),
+      'ingredients': new FormArray(ingredients)
     });
   }
 
