@@ -29,17 +29,11 @@ export class EditRecipePage implements OnInit {
   }
 
   onSubmit() {
-    let ingredients = [];
-    if (this.recipeForm.value.ingredients.length > 0) {
-      ingredients = this.recipeForm.value.ingredients.map(name => {
-        return { name: name, amount: 1 }
-      });
-    }
     const recipe = new Recipe(
       this.recipeForm.value.title,
       this.recipeForm.value.description,
       this.recipeForm.value.difficulty,
-      ingredients
+      this.getRecipeIngredients()
     );
     this.recipesService.addRecipe(recipe);
     this.recipeForm.reset();
@@ -60,14 +54,7 @@ export class EditRecipePage implements OnInit {
           text: 'Remove All Ingredients',
           role: 'destructive',
           handler: () => {
-            const formArray: FormArray = <FormArray>this.recipeForm.get('ingredients');
-            const arrayLength = formArray.length;
-            if (arrayLength > 0) {
-              for (let i = arrayLength; i >= 0; i--) {
-                formArray.removeAt(i);
-              }
-              this.displayToastMessage('All ingredients were removed.');
-            }
+            this.removeRecipeIngredients();
           }
         },
         {
@@ -96,13 +83,7 @@ export class EditRecipePage implements OnInit {
         {
           text: 'Add',
           handler: data => {
-            if (data.name == null || data.name.trim() == '') {
-              this.displayToastMessage('Plase, provide a valid ingredient name.');
-              return;
-            }
-            this.displayToastMessage('Item added.');
-            let ingredients = <FormArray>this.recipeForm.get('ingredients');
-            ingredients.push(new FormControl(data.name, Validators.required));
+            this.addRecipeIngredient(data);
           }
         }
       ]
@@ -125,5 +106,36 @@ export class EditRecipePage implements OnInit {
       position: 'bottom'
     });
     toast.present();
+  }
+
+  private getRecipeIngredients() {
+    let ingredients = [];
+    if (this.recipeForm.value.ingredients.length > 0) {
+      ingredients = this.recipeForm.value.ingredients.map(name => {
+        return { name: name, amount: 1 }
+      });
+    }
+    return ingredients;
+  }
+
+  private removeRecipeIngredients() {
+    const formArray: FormArray = <FormArray>this.recipeForm.get('ingredients');
+    const arrayLength = formArray.length;
+    if (arrayLength > 0) {
+      for (let i = arrayLength; i >= 0; i--) {
+        formArray.removeAt(i);
+      }
+      this.displayToastMessage('All ingredients were removed.');
+    }
+  }
+
+  private addRecipeIngredient(data: any) {
+    if (data.name == null || data.name.trim() == '') {
+      this.displayToastMessage('Plase, provide a valid ingredient name.');
+      return;
+    }
+    let ingredients = <FormArray>this.recipeForm.get('ingredients');
+    ingredients.push(new FormControl(data.name, Validators.required));
+    this.displayToastMessage('Item added.');
   }
 }
