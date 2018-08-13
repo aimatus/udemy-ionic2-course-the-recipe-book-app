@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Recipe } from '../../models/recipe.model';
 import { EditRecipePage } from '../edit-recipe/edit-recipe';
 import { ShoppingListService } from '../../services/shopping-list.service';
@@ -19,7 +19,8 @@ export class RecipePage implements OnInit{
     private navController: NavController,
     private navParams: NavParams,
     private shoppingListService: ShoppingListService,
-    private recipesService: RecipesService) {
+    private recipesService: RecipesService,
+    private toastController: ToastController) {
   }
 
   ngOnInit(): void {
@@ -34,6 +35,11 @@ export class RecipePage implements OnInit{
 
   onAddIngredients() {
     this.shoppingListService.addItems(this.recipe.ingredients);
+    this.toastController.create({
+      message: 'Items added to shopping list.',
+      duration: 2000,
+      position: 'bottom'
+    }).present();
   }
 
   onDeleteRecipe() {
