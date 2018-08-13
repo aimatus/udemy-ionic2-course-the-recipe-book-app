@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavParams, ActionSheetController, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavParams, ActionSheetController, AlertController, ToastController, NavController } from 'ionic-angular';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { RecipesService } from '../../services/recipes.service';
+import { Recipe } from '../../models/recipe.model';
 
 @IonicPage()
 @Component({
@@ -17,7 +19,9 @@ export class EditRecipePage implements OnInit {
     private navParams: NavParams,
     private actionSheetController: ActionSheetController,
     private alertController: AlertController,
-    private toastController: ToastController) { }
+    private toastController: ToastController,
+    private recipesService: RecipesService,
+    private navController: NavController) { }
 
   ngOnInit(): void {
     this.navParams.get('mode');
@@ -25,7 +29,21 @@ export class EditRecipePage implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.recipeForm);
+    let ingredients = [];
+    if (this.recipeForm.value.ingredients.length > 0) {
+      ingredients = this.recipeForm.value.ingredients.map(name => {
+        return { name: name, amount: 1 }
+      });
+    }
+    const recipe = new Recipe(
+      this.recipeForm.value.title,
+      this.recipeForm.value.description,
+      this.recipeForm.value.difficulty,
+      ingredients
+    );
+    this.recipesService.addRecipe(recipe);
+    this.recipeForm.reset();
+    this.navController.popToRoot();
   }
 
   onManageIngredients() {

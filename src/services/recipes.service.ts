@@ -6,6 +6,7 @@ export class RecipesService {
 
     addRecipe(recipe: Recipe) {
         this.recipes.push(recipe);
+        console.log(this.recipes);
     }
 
     getRecipes() {
