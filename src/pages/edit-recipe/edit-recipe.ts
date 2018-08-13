@@ -48,12 +48,7 @@ export class EditRecipePage implements OnInit {
               for (let i = arrayLength; i >= 0; i--) {
                 formArray.removeAt(i);
               }
-              const toast = this.toastController.create({
-                message: 'All ingredients were removed.',
-                duration: 2000,
-                position: 'bottom'
-              });
-              toast.present();
+              this.displayToastMessage('All ingredients were removed.');
             }
           }
         },
@@ -84,20 +79,10 @@ export class EditRecipePage implements OnInit {
           text: 'Add',
           handler: data => {
             if (data.name == null || data.name.trim() == '') {
-              const toast = this.toastController.create({
-                message: 'Plase, provide a valid ingredient name.',
-                duration: 2000,
-                position: 'bottom'
-              });
-              toast.present();
+              this.displayToastMessage('Plase, provide a valid ingredient name.');
               return;
             }
-            const toast = this.toastController.create({
-              message: 'Item added.',
-              duration: 2000,
-              position: 'bottom'
-            });
-            toast.present();
+            this.displayToastMessage('Item added.');
             let ingredients = <FormArray>this.recipeForm.get('ingredients');
             ingredients.push(new FormControl(data.name, Validators.required));
           }
@@ -113,5 +98,14 @@ export class EditRecipePage implements OnInit {
       'difficulty': new FormControl(this.difficultyOptions[1], Validators.required),
       'ingredients': new FormArray([])
     });
+  }
+
+  private displayToastMessage(message: string) {
+    const toast = this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
   }
 }
