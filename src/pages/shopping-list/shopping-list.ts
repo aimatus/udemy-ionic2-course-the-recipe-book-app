@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { ShoppingListService } from '../../services/shopping-list.service';
-import { Ingredient } from '../../models/ingredient';
+import { Ingredient } from '../../models/ingredient.model';
 
 @IonicPage()
 @Component({
