@@ -16,10 +16,10 @@ export class MyApp {
   @ViewChild('nav') nav: NavController;
 
   constructor(
-    private platform: Platform,
-    private statusBar: StatusBar,
-    private splashScreen: SplashScreen,
-    private menuController: MenuController) {
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    public menuController: MenuController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
