@@ -10,7 +10,7 @@
                 menuToggle
                 ion-item
                 icon-left
-                (click)="onLoad(tabsPage)">
+                (click)="onLoad(rootPage)">
                 <ion-icon name="book"></ion-icon>
                 Recipe Book
             </button>
@@ -42,6 +42,6 @@
     </ion-content>
 </ion-menu>
 
-<ion-nav [root]="tabsPage"
+<ion-nav [root]="rootPage"
     #nav>
 </ion-nav>
