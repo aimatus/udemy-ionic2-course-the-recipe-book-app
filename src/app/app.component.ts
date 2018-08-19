@@ -15,6 +15,7 @@ export class MyApp {
   tabsPage: any = TabsPage;
   signinPage: any = SigninPage
   signupPage: any = SignupPage
+  isAuthenticated: boolean = false;
   @ViewChild('nav') nav: NavController;
 
   constructor(
@@ -22,8 +23,17 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public menuController: MenuController) {
+    firebase.initializeApp(config.firebase);
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.isAuthenticated = true;
+        this.nav.setRoot(this.tabsPage);
+      } else {
+        this.isAuthenticated = false;
+        this.nav.setRoot(this.signinPage);
+      }
+    });
     platform.ready().then(() => {
-      firebase.initializeApp(config.firebase);
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
