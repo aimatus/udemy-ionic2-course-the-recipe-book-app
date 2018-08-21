@@ -1,23 +1,30 @@
 <ion-header>
   <ion-navbar>
-    <ion-buttons start menuToggle>
-      <button ion-button icon-only>
+    <ion-buttons start
+      menuToggle>
+      <button ion-button
+        icon-only>
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title>Shopping List</ion-title>
+    <ion-buttons end>
+      <button ion-button
+        icon-only
+        (click)="onShowOptions($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <form
-    #itemForm="ngForm"
+  <form #itemForm="ngForm"
     (ngSubmit)="onAddItem(itemForm)">
     <ion-list>
       <ion-item>
         <ion-label fixed>Name</ion-label>
-        <ion-input
-          type="text"
+        <ion-input type="text"
           name="ingredientName"
           placeholder="Milk"
           ngModel
@@ -26,8 +33,7 @@
       </ion-item>
       <ion-item>
         <ion-label fixed>Amount</ion-label>
-        <ion-input
-          type="number"
+        <ion-input type="number"
           name="amount"
           placeholder="2"
           ngModel
@@ -35,8 +41,7 @@
         </ion-input>
       </ion-item>
     </ion-list>
-    <button
-      ion-button
+    <button ion-button
       type="submit"
       block
       [disabled]="!itemForm.valid">
@@ -45,8 +50,7 @@
   </form>
 
   <ion-list>
-    <ion-item
-      *ngFor="let item of items"
+    <ion-item *ngFor="let item of items"
       (click)="onRemoveItem(index)">
       <h3>{{ item.name }} ({{ item.amount }})</h3>
     </ion-item>
