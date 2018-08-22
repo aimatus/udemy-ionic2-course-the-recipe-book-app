@@ -5,6 +5,7 @@ import { ShoppingListService } from '../../services/shopping-list.service';
 import { Ingredient } from '../../models/ingredient.model';
 import { ShoppingListOptionsPage } from './shopping-list-options/shopping-list-options';
 import { AuthService } from '../../services/auth.service';
+import { ShoppingListConstants } from './shopping-list-constants';
 
 @IonicPage()
 @Component({
@@ -45,9 +46,9 @@ export class ShoppingListPage {
     popover.present({ ev: event });
     popover.onDidDismiss(
       action => {
-        if (action === 'load-list') {
+        if (action === ShoppingListConstants.LOAD_POPOVER_ACTION) {
           console.log('Loading list...');
-        } else if (action === 'save-list') {
+        } else if (action === ShoppingListConstants.SAVE_POPOVER_ACTION) {
           this.authService.getActiveUser().getIdToken()
             .then(
               (token: string) => {

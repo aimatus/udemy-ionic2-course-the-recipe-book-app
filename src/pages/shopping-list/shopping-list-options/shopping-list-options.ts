@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, ViewController } from 'ionic-angular';
+import { ShoppingListConstants } from '../shopping-list-constants';
 
 @IonicPage()
 @Component({
@@ -11,12 +12,10 @@ export class ShoppingListOptionsPage {
   constructor(private viewController: ViewController) { }
 
   onLoadList() {
-    const loadAction = 'save-list';
-    this.viewController.dismiss(loadAction);
+    this.viewController.dismiss(ShoppingListConstants.LOAD_POPOVER_ACTION);
   }
 
   onSaveList() {
-    const saveAction = 'load-list';
-    this.viewController.dismiss(saveAction);
+    this.viewController.dismiss(ShoppingListConstants.SAVE_POPOVER_ACTION);
   }
 }
