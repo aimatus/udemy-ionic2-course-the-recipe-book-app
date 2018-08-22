@@ -11,11 +11,12 @@ export class ShoppingListOptionsPage {
   constructor(private viewController: ViewController) { }
 
   onLoadList() {
-    this.viewController.dismiss();
+    const loadAction = 'save-list';
+    this.viewController.dismiss(loadAction);
   }
 
   onSaveList() {
-    this.viewController.dismiss();
+    const saveAction = 'load-list';
+    this.viewController.dismiss(saveAction);
   }
-
 }
