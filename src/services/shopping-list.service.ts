@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Ingredient } from "../models/ingredient.model";
 import { Injectable } from "@angular/core";
 import { AuthService } from './auth.service';
 import 'rxjs/Rx'
+import { Recipe } from '../models/recipe.model';
 
 @Injectable()
 export class ShoppingListService {
@@ -33,7 +34,7 @@ export class ShoppingListService {
     storeList(token: string) {
         return this.httpClient
             .put(this.buildIngredientsUri(token), this.ingredients)
-            .map((response: any) => {
+            .map((response: HttpResponse<Recipe[]>) => {
                 console.log(response);
                 return response
             });
