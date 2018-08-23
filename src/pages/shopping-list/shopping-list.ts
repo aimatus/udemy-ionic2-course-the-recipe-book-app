@@ -48,6 +48,23 @@ export class ShoppingListPage {
       action => {
         if (action === ShoppingListConstants.LOAD_POPOVER_ACTION) {
           console.log('Loading list...');
+          this.authService.getActiveUser().getIdToken()
+            .then(
+              (token: string) => {
+                this.shoppingListService.fetchList(token)
+                  .subscribe(
+                    (ingredients: Ingredient[]) => {
+                      if (ingredients) {
+                        this.items = ingredients;
+                        console.log(this.items);
+                      }
+                    },
+                    error => {
+                      console.log(error);
+                    }
+                  );
+              }
+            );
         } else if (action === ShoppingListConstants.SAVE_POPOVER_ACTION) {
           this.authService.getActiveUser().getIdToken()
             .then(

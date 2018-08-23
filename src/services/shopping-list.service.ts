@@ -40,6 +40,17 @@ export class ShoppingListService {
             });
     }
 
+    fetchList(token: string) {
+        return this.httpClient
+            .get(this.buildIngredientsUri(token))
+            .map((response:Ingredient[]) => {
+                return response;
+            })
+            .do((data) => {
+                this.ingredients = data;
+            });
+    }
+
     private buildIngredientsUri(token: string) {
         const userId = this.authService.getActiveUser().uid;
         const domain = 'https://ionic2-the-recipe-book.firebaseio.com/';
