@@ -46,40 +46,41 @@ export class ShoppingListPage {
     popover.present({ ev: event });
     popover.onDidDismiss(
       action => {
-        if (action === ShoppingListConstants.LOAD_POPOVER_ACTION) {
-          console.log('Loading list...');
-          this.authService.getActiveUser().getIdToken()
-            .then(
-              (token: string) => {
-                this.shoppingListService.fetchList(token)
-                  .subscribe(
-                    (ingredients: Ingredient[]) => {
-                      if (ingredients) {
-                        this.items = ingredients;
-                        console.log(this.items);
-                      }
-                    },
-                    error => {
-                      console.log(error);
-                    }
-                  );
-              }
-            );
-        } else if (action === ShoppingListConstants.SAVE_POPOVER_ACTION) {
-          this.authService.getActiveUser().getIdToken()
-            .then(
-              (token: string) => {
-                this.shoppingListService.storeList(token)
-                  .subscribe(
-                    () => console.log('Success!'),
-                    error => {
-                      console.log(error);
-                    }
-                  );
-              }
-            );
-        }
+        this.execDismissAction(action);
       }
     );
+  }
+
+  private execDismissAction(action: any) {
+    this.authService.getActiveUser().getIdToken()
+      .then((token: string) => {
+        if (action === ShoppingListConstants.LOAD_POPOVER_ACTION) {
+          this.fetchIngredientsList(token);
+        }
+        else if (action === ShoppingListConstants.SAVE_POPOVER_ACTION) {
+          this.storeIngredientsList(token);
+        }
+      });
+  }
+
+  private storeIngredientsList(token: string) {
+    this.shoppingListService.storeList(token)
+      .subscribe(() => {
+        console.log('Ingredients list successfuly saved.')
+      }, error => {
+        console.log(error);
+      });
+  }
+
+  private fetchIngredientsList(token: string) {
+    console.log('Loading list...');
+    this.shoppingListService.fetchList(token)
+      .subscribe((ingredients: Ingredient[]) => {
+        if (ingredients) {
+          this.items = ingredients;
+        }
+      }, error => {
+        console.log(error);
+      });
   }
 }
