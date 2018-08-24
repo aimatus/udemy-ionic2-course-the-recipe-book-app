@@ -34,7 +34,6 @@ export class ShoppingListService {
         return this.httpClient
             .put(this.buildIngredientsUri(token), this.ingredients)
             .map((response: Ingredient[]) => {
-                console.log(response);
                 return response
             });
     }

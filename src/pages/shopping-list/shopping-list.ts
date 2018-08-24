@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, PopoverController } from 'ionic-angular';
+import { IonicPage, PopoverController, LoadingController, Loading, AlertController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { ShoppingListService } from '../../services/shopping-list.service';
 import { Ingredient } from '../../models/ingredient.model';
@@ -15,11 +15,14 @@ import { ShoppingListConstants } from './shopping-list-constants';
 export class ShoppingListPage {
 
   items: Ingredient[];
+  private loadingSpinner: Loading;
 
   constructor(
     private shoppingListService: ShoppingListService,
     private popoverController: PopoverController,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private loadingController: LoadingController,
+    private alertController: AlertController) { }
 
   ionViewWillEnter() {
     this.loadItems();
@@ -52,12 +55,17 @@ export class ShoppingListPage {
   }
 
   private execDismissAction(action: any) {
+    this.loadingSpinner = this.loadingController.create({
+      content: 'Please wait...'
+    });
     this.authService.getActiveUser().getIdToken()
       .then((token: string) => {
         if (action === ShoppingListConstants.LOAD_POPOVER_ACTION) {
+          this.loadingSpinner.present();
           this.fetchIngredientsList(token);
         }
         else if (action === ShoppingListConstants.SAVE_POPOVER_ACTION) {
+          this.loadingSpinner.present();
           this.storeIngredientsList(token);
         }
       });
@@ -66,21 +74,33 @@ export class ShoppingListPage {
   private storeIngredientsList(token: string) {
     this.shoppingListService.storeList(token)
       .subscribe(() => {
-        console.log('Ingredients list successfuly saved.')
+        this.loadingSpinner.dismiss();
       }, error => {
-        console.log(error);
+        this.loadingSpinner.dismiss();
+        this.handleError(error.error.error);
       });
   }
 
   private fetchIngredientsList(token: string) {
-    console.log('Loading list...');
     this.shoppingListService.fetchList(token)
       .subscribe((ingredients: Ingredient[]) => {
         if (ingredients) {
           this.items = ingredients;
         }
+        this.loadingSpinner.dismiss();
       }, error => {
         console.log(error);
+        this.loadingSpinner.dismiss();
+        this.handleError(error.error.error);
       });
+  }
+
+  private handleError(errorMessage: string) {
+    const alert = this.alertController.create({
+      title: 'An error ocurred!',
+      message: errorMessage,
+      buttons: ['Ok']
+    });
+    alert.present();
   }
 }
