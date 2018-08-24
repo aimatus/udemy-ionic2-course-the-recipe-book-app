@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, PopoverController, LoadingController, Loading, AlertController } from 'ionic-angular';
+import { IonicPage, PopoverController, LoadingController, Loading, AlertController, ToastController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { ShoppingListService } from '../../services/shopping-list.service';
 import { Ingredient } from '../../models/ingredient.model';
@@ -22,7 +22,8 @@ export class ShoppingListPage {
     private popoverController: PopoverController,
     private authService: AuthService,
     private loadingController: LoadingController,
-    private alertController: AlertController) { }
+    private alertController: AlertController,
+    private toastController: ToastController) { }
 
   ionViewWillEnter() {
     this.loadItems();
@@ -75,6 +76,7 @@ export class ShoppingListPage {
     this.shoppingListService.storeList(token)
       .subscribe(() => {
         this.loadingSpinner.dismiss();
+        this.notifiyEvent('Ingredients saved');
       }, error => {
         this.loadingSpinner.dismiss();
         this.handleError(error.error.error);
@@ -88,6 +90,7 @@ export class ShoppingListPage {
           this.items = ingredients;
         }
         this.loadingSpinner.dismiss();
+        this.notifiyEvent('Ingredients loaded');
       }, error => {
         console.log(error);
         this.loadingSpinner.dismiss();
@@ -102,5 +105,13 @@ export class ShoppingListPage {
       buttons: ['Ok']
     });
     alert.present();
+  }
+
+  private notifiyEvent(message: string) {
+    console.log(message);
+    this.toastController.create({
+      message: message,
+      duration: 1500
+    }).present();
   }
 }
