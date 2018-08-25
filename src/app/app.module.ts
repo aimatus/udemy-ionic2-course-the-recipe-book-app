@@ -17,6 +17,7 @@ import { SigninPage } from '../pages/signin/signin';
 import { SignupPage } from '../pages/signup/signup';
 import { AuthService } from '../services/auth.service';
 import { ShoppingListOptionsPage } from '../pages/shopping-list/shopping-list-options/shopping-list-options';
+import { RecipesOptionsPage } from '../pages/recipes/recipes-options/recipes-options';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ShoppingListOptionsPage } from '../pages/shopping-list/shopping-list-op
     TabsPage,
     SigninPage,
     SignupPage,
-    ShoppingListOptionsPage
+    ShoppingListOptionsPage,
+    RecipesOptionsPage
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { ShoppingListOptionsPage } from '../pages/shopping-list/shopping-list-op
     TabsPage,
     SigninPage,
     SignupPage,
-    ShoppingListOptionsPage
+    ShoppingListOptionsPage,
+    RecipesOptionsPage
   ],
   providers: [
     StatusBar,
