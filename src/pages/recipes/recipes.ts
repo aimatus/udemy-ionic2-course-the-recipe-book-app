@@ -87,7 +87,6 @@ export class RecipesPage {
         this.loadingSpinner.dismiss();
         this.notifiyEvent('Recipes loaded');
       }, error => {
-        console.log(error);
         this.loadingSpinner.dismiss();
         this.handleError(error.error.error);
       });
@@ -103,7 +102,6 @@ export class RecipesPage {
   }
 
   private notifiyEvent(message: string) {
-    console.log(message);
     this.toastController.create({
       message: message,
       duration: 1500

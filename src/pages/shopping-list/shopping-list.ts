@@ -92,7 +92,6 @@ export class ShoppingListPage {
         this.loadingSpinner.dismiss();
         this.notifiyEvent('Ingredients loaded');
       }, error => {
-        console.log(error);
         this.loadingSpinner.dismiss();
         this.handleError(error.error.error);
       });
@@ -108,7 +107,6 @@ export class ShoppingListPage {
   }
 
   private notifiyEvent(message: string) {
-    console.log(message);
     this.toastController.create({
       message: message,
       duration: 1500
