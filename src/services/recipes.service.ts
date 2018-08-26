@@ -41,6 +41,12 @@ export class RecipesService {
         return this.httpClient
             .get(this.buildIngredientsUri(token))
             .map((response: Recipe[]) => {
+                const recipes: Recipe[] = response ? response : [];
+                for (let recipe of recipes) {
+                    if (!recipe.hasOwnProperty('ingredients')) {
+                        recipe.ingredients = [];
+                    }
+                }
                 return response;
             })
             .do((data) => {
